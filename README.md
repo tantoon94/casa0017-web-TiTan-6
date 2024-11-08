@@ -1,12 +1,9 @@
-# CASA0017 Web Assessment ReadMe File
+# CASA0017 Web Assessment ReadMe File - Titan 6's
 
-# Titan 6's Group Project Name
+## UCL Accommodation Compass
 
 This is the Final assessment template for CASA0017 - Please use this template and edit the relevant sections to personalise.
 This section has a short introduction to what the website is about and what research problem the site is solving.  Remeber this file showcases your website source code so use it to sell what you can do as a group or showcase in a future portfolio. 
-
-## The member of Titan
-
 
 ## Use this README File 
 
@@ -24,8 +21,13 @@ Put some tags in to make your site more searchable in GitHub
 
 ## Include A Section That Tells Developers How To Install The App
 
-Include a section that gives intructions on how to install the app or run it in Docker.  What versions of the plugins are you assuming?  Maybe define a licence as well, this is good practise.
+### Windows developers
+Just double click the "deploy.bat", the web could be created by your own computer, hopefully everything would be done
+
+### Raspberry Pi
+CD to the Project by: `cd ~/Desktop/casa0017-web-TiTan-6`
+Run the "deploy.sh", the lasted "main" branch would be download from git, and then it would build the web auto
 
 ##  Contact Details
 
-Having Contact Details is also good as it shows people how to get in contact with you if they'd like to contribute to the app. 
+Dankao Chen: zczqdc2@ucl.ac.uk
