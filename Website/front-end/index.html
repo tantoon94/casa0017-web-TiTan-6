@@ -45,9 +45,9 @@
                 <!-- Distance Section -->
                 <div class="distance-section">
                     <p>Distance</p>
-                    <button onclick="setDistance(5)">5 km</button>
-                    <button onclick="setDistance(10)">10 km</button>
-                    <button onclick="setDistance(20)">20 km</button>
+                    <button onclick="setDistance(400)">5 minutes</button>
+                    <button onclick="setDistance(800)">10 minutes</button>
+                    <button onclick="setDistance(1600)">20 minutes</button>
                 </div>
 
                 <!-- Selected Accommodation Info -->
@@ -125,9 +125,9 @@
         }
 
         // Set distance and reload markers within the selected radius
-        function setDistance(km) {
-            loadMarkers(currentLocation, km);
-            alert(`Showing accommodations within ${km} km`);
+        function setDistance(m) {
+            loadMarkers(currentLocation, m);
+            alert(`Showing accommodations within ${m} m`);
         }
 
         // Search for a location and recenter the map
