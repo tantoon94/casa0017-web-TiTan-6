@@ -9,6 +9,8 @@ for /f "tokens=2 delims=:" %%a in ('ipconfig ^| findstr "IPv4 Address"') do (
     call set ip=%%ip:~1%%
 )
 
+start npm install
+
 :: Start the server
 echo Starting the server...
 start node server.js
