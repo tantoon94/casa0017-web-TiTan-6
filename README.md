@@ -5,9 +5,9 @@
 This is the Final assessment template for CASA0017 - Please use this template and edit the relevant sections to personalise.
 This section has a short introduction to what the website is about and what research problem the site is solving.  Remeber this file showcases your website source code so use it to sell what you can do as a group or showcase in a future portfolio. 
 
-# Use this README File 
+# Intro of our Website
 
-Use this section to show us what your Website is about.   Include a Screenshot to the Website in this README file, link to the various frameworks you've used.  If you want to show off your website you can add a Gif of you interacting with your site.   Emojis are also fun to include as well 😄
+Use this section to show us what your Website is about. Include a Screenshot to the Website in this README file, link to the various frameworks you've used.  If you want to show off your website you can add a Gif of you interacting with your site.   Emojis are also fun to include as well 😄
 
 Look at some other Websites online in GitHub and see how they use the README File to showcase thier site.  Good examples are:
 
@@ -24,7 +24,7 @@ Put some tags in to make your site more searchable in GitHub
 
 As Docker is mandatory required for this project, u need to download Docker on your Computer(Laptop). But pls donot install Docker on the Win directly, or it might destory the environment of your computer. 
 
-I know you guys don't want to totally change your computer into linux (by completely reinstalling the computer). 
+I know you guys don't want to completely change your computer into linux (by completely reinstalling the computer). 
 
 So, use the virtual machines on your computer(through Hyper-V) is highly recommended for developing this project.
 
@@ -77,6 +77,7 @@ Start PowerShell in administrator mode and run the following command:
 
 ### Step 5. For Chinese Developers Only
 Install Pinyin input method through Fcitx5 in Ubuntu and set it to start automatically at boot
+
     Pls search on the internet or even ask GPT, pls donot ask me.
 
 ## Build and Run (PLS "cd" to the folder: Website/)
