@@ -79,7 +79,11 @@ Start PowerShell in administrator mode and run the following command:
 Install Pinyin input method through Fcitx5 in Ubuntu and set it to start automatically at boot
     Pls search on the internet or even ask GPT, pls donot ask me.
 
-## Build and Run
+## Build and Run (PLS "cd" to the folder: Website/)
+
+**Check Doker Container**
+
+    sudo docker ps
 
 **Run with Docker Compose:**
 
