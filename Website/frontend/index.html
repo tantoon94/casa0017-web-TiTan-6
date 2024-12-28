@@ -59,89 +59,202 @@
     <script src="/js/app.js"></script>
 
     <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=geometry&callback=initMap" async defer></script>
     <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",
+        c="google",l="importLibrary",
+        q="__ib__",
+        m=document,
+        b=window;
+        b=b[c]||(b[c]={});
+        var d=b.maps||(b.maps={}),
+        r=new Set,
+        e=new URLSearchParams,
+        u=()=>h||(h=new Promise(async(f,n)=>
+        {
+            await (a=m.createElement("script"));
+             e.set("libraries",[...r]+"");
+             for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);
+             e.set("callback",c+".maps."+q);
+             a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;
+             a.onerror=()=>h=n(Error(p+" could not load."));
+             a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));
+             d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().
+             then(()=>d[l](f,...n))})({
+            key: "AIzaSyBleoptuqG4muN960mY7UWdTUljJi_Fycc",
+            v: "weekly",
+          // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+          // Add other bootstrap parameters as needed, using camel case.
+        });
+      </script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBleoptuqG4muN960mY7UWdTUljJi_Fycc&libraries=geometry&callback=initMap" async defer></script> -->
+    <script>
+        // let map;
+        // let markers = [];
+        // let currentLocation = { lat: 51.52483257546567, lng: -0.13417923134575657 }; // Default to Bloomsburry
         let map;
-        let markers = [];
-        let currentLocation = { lat: 37.7749, lng: -122.4194 }; // Default to San Francisco
+        let center;
+
+        async function initMap() {
+        const { Map } = await google.maps.importLibrary("maps");
+
+        center = { lat: 51.52483257546567, lng: -0.13417923134575657 };
+        map = new Map(document.getElementById("map"), {
+            center: center,
+            zoom: 11,
+            mapId: "DEMO_MAP_ID",
+        });
+        findPlaces();
+        }
+
+        async function findPlaces() {
+        const { Place } = await google.maps.importLibrary("places");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+        const request = {
+            textQuery: "student halls london ucl",
+            fields: ["displayName", "location", "businessStatus"],
+            // includedType: "restaurant",
+            // locationBias: { lat: 37.4161493, lng: -122.0812166 },
+            // isOpenNow: true,
+            language: "en-US",
+            maxResultCount: 20,
+            minRating: 3.2,
+            // region: "us",
+            useStrictTypeFiltering: false,
+        };
+        //@ts-ignore
+        const { places } = await Place.searchByText(request);
+
+        if (places.length) {
+            console.log(places);
+
+            const { LatLngBounds } = await google.maps.importLibrary("core");
+            const bounds = new LatLngBounds();
+
+            // Loop through and get all the results.
+            places.forEach((place) => {
+            const markerView = new AdvancedMarkerElement({
+                map,
+                position: place.location,
+                title: place.displayName,
+            });
+
+            bounds.extend(place.location);
+            console.log(place);
+            });
+            map.fitBounds(bounds);
+        } else {
+            console.log("No results");
+        }
+        }
+
+        initMap();
+  
 
         // Initialize Google Map
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: currentLocation,
-                zoom: 12,
-            });
+        // function initMap() {
+        //     var london = new google.maps.LatLng(51.52483257546567, -0.13417923134575657);
 
-            // Load initial markers
-            loadMarkers(currentLocation, 20); // Default to 20 km radius
-        }
+        //     // infowindow = new google.maps.infowindow();
 
-        // Load markers within a specified radius
-        function loadMarkers(center, radius) {
-            clearMarkers();
+        //     map = new google.maps.Map(document.getElementById("map"), {
+        //         center: london,
+        //         zoom: 12,
+        //     });
 
-            // Example data: accommodation locations (replace with real data as needed)
-            const accommodations = [
-                { position: { lat: 37.7749, lng: -122.4194 }, name: "Accommodation 1" },
-                { position: { lat: 37.7849, lng: -122.4294 }, name: "Accommodation 2" },
-                { position: { lat: 37.7949, lng: -122.4394 }, name: "Accommodation 3" }
-            ];
+        //     var request = {
+        //         query: 'student halls london ucl',
+        //         fields: ['name', 'geometry'],                
+        //     };
+            
+        //     var service = new google.maps.places.PlacesService(map);
 
-            // Calculate distance and display markers within the radius
-            accommodations.forEach((acc) => {
-                const distance = google.maps.geometry.spherical.computeDistanceBetween(
-                    new google.maps.LatLng(center.lat, center.lng),
-                    new google.maps.LatLng(acc.position.lat, acc.position.lng)
-                );
+        //     service.findPlaceFromQuery(request, function(results, status) {
+        //     if (status === google.maps.places.PlacesServiceStatus.OK) {
+        //         for (var i = 0; i < results.length; i++) {
+        //         createMarker(results[i]);
+        //         }
+        //         //map.setCenter(results[0].geometry.location);
+        //     }
+        //     });
 
-                if (distance <= radius * 1000) {
-                    const marker = new google.maps.Marker({
-                        position: acc.position,
-                        map: map,
-                        title: acc.name
-                    });
+        //     // Load initial markers
+        //     //loadMarkers(currentLocation, 20); // Default to 20 km radius
+        // }
 
-                    marker.addListener("click", () => {
-                        document.getElementById("accommodation-info").textContent = acc.name;
-                        document.getElementById("more-info-link").setAttribute("href", "#"); // Link to details
-                    });
+        // // Load markers within a specified radius
+        // function loadMarkers(center, radius) {
+        //     clearMarkers();
 
-                    markers.push(marker);
-                }
-            });
-        }
+        //     // Example data: accommodation locations (replace with real data as needed)
+        //     const accommodations = [
+        //         { position: { lat: 37.7749, lng: -122.4194 }, name: "Accommodation 1" },
+        //         { position: { lat: 37.7849, lng: -122.4294 }, name: "Accommodation 2" },
+        //         { position: { lat: 37.7949, lng: -122.4394 }, name: "Accommodation 3" }
+        //     ];
 
-        // Clear all markers from the map
-        function clearMarkers() {
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
-        }
+        //     // Calculate distance and display markers within the radius
+        //     accommodations.forEach((acc) => {
+        //         const distance = google.maps.geometry.spherical.computeDistanceBetween(
+        //             new google.maps.LatLng(center.lat, center.lng),
+        //             new google.maps.LatLng(acc.position.lat, acc.position.lng)
+        //         );
 
+<<<<<<< Updated upstream:Website/frontend/index.html
         // Set distance and reload markers within the selected radius
         function setDistance(m) {
             loadMarkers(currentLocation, m);
             alert(`Showing accommodations within ${m} m`);
         }
+=======
+        //         if (distance <= radius * 1000) {
+        //             const marker = new google.maps.Marker({
+        //                 position: acc.position,
+        //                 map: map,
+        //                 title: acc.name
+        //             });
+>>>>>>> Stashed changes:Website/front-end/index.html
 
-        // Search for a location and recenter the map
-        function searchLocation() {
-            const destination = document.getElementById("destination").value;
-            if (destination) {
-                const geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ address: destination }, (results, status) => {
-                    if (status === "OK") {
-                        currentLocation = results[0].geometry.location;
-                        map.setCenter(currentLocation);
-                        loadMarkers(currentLocation, 20); // Reset to 20 km or chosen distance
-                    } else {
-                        alert("Location not found: " + status);
-                    }
-                });
-            }
-        }
+        //             marker.addListener("click", () => {
+        //                 document.getElementById("accommodation-info").textContent = acc.name;
+        //                 document.getElementById("more-info-link").setAttribute("href", "#"); // Link to details
+        //             });
 
-        // Event listener for the search button
-        document.getElementById("search-button").addEventListener("click", searchLocation);
+        //             markers.push(marker);
+        //         }
+        //     });
+        // }
+
+        // // Clear all markers from the map
+        // function clearMarkers() {
+        //     markers.forEach(marker => marker.setMap(null));
+        //     markers = [];
+        // }
+
+        // // Set distance and reload markers within the selected radius
+        // function setDistance(km) {
+        //     loadMarkers(currentLocation, km);
+        //     alert(`Showing accommodations within ${km} km`);
+        // }
+
+        // // Search for a location and recenter the map
+        // function searchLocation() {
+        //     const destination = document.getElementById("destination").value;
+        //     if (destination) {
+        //         const geocoder = new google.maps.Geocoder();
+        //         geocoder.geocode({ address: destination }, (results, status) => {
+        //             if (status === "OK") {
+        //                 currentLocation = results[0].geometry.location;
+        //                 map.setCenter(currentLocation);
+        //                 loadMarkers(currentLocation, 20); // Reset to 20 km or chosen distance
+        //             } else {
+        //                 alert("Location not found: " + status);
+        //             }
+        //         });
+        //     }
+        // }
+
+        // // Event listener for the search button
+        // document.getElementById("search-button").addEventListener("click", searchLocation);
     </script>
 </body>
 </html>
